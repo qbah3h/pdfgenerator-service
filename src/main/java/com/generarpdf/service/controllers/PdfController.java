@@ -1,15 +1,14 @@
 package com.generarpdf.service.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generarpdf.service.dtos.CurriculumDto;
 import com.generarpdf.service.services.IPdfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/cv")
@@ -18,10 +17,15 @@ public class PdfController {
     @Autowired
     private IPdfService pdfService;
 
-    @PostMapping(path = "/generate", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<byte[]> generate(@RequestBody CurriculumDto curriculum) {
+    @PostMapping(path = "/generate", produces = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<byte[]> generate(@RequestPart String curriculumJson,
+                                           @RequestPart(value = "image", required = false) MultipartFile image) {
         try {
-            byte[] pdfBytes = pdfService.generatePDF(curriculum);
+            // Deserialize the curriculum JSON manually
+            ObjectMapper objectMapper = new ObjectMapper();
+            CurriculumDto curriculum = objectMapper.readValue(curriculumJson, CurriculumDto.class);
+
+            byte[] pdfBytes = pdfService.generatePDF(curriculum, image);
 
             String filename = "CV - Nombre - Tema.pdf";
 

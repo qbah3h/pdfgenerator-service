@@ -15,4 +15,5 @@ public class CurriculumDto {
     private List<ExperienceDto> experiences;
     private List<EducationDto> education;
     private List<ProjectDto> projects;
+    private String imageData;
 }

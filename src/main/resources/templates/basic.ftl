@@ -1,20 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1, h2 { color: #2c3e50; }
-        .section { margin-bottom: 25px; }
-        .header { border-bottom: 2px solid #2c3e50; margin-bottom: 20px; }
-        .contact { font-size: 14px; color: #555; }
-        .job-title { font-weight: bold; color: #333; }
-        .company { font-style: italic; color: #777; }
-        .date-range { float: right; color: #999; }
-        ul { padding-left: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1,
+        h2 {
+            color: #2c3e50;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .header {
+            border-bottom: 2px solid #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .contact {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .job-title {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .company {
+            font-style: italic;
+            color: #777;
+        }
+
+        .date-range {
+            float: right;
+            color: #999;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
     </style>
 </head>
-<body>
 
+<body>
+    <#if imageData??>
+        <img src="${imageData}" alt="Profile Image" />
+    </#if>
     <div class="header">
         <h1>${fullName}</h1>
         <div class="contact">
@@ -79,4 +116,5 @@
     </#if>
 
 </body>
+
 </html>

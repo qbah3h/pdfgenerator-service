@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Base64;
 
 @Service
 public class PdfService implements IPdfService {
@@ -17,8 +19,14 @@ public class PdfService implements IPdfService {
     @Autowired
     private Configuration freemarkerConfig;
 
-    public byte[] generatePDF(CurriculumDto curriculum) throws Exception {
+    public byte[] generatePDF(CurriculumDto curriculum, MultipartFile image) throws Exception {
         String templateName = "basic.ftl";
+
+        // If there is an image, convert it to a byte array
+        if (image != null && !image.isEmpty()) {
+            byte[] imageBytes = image.getBytes();
+            curriculum.setImageData("data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes));;
+        }
 
         Template template = freemarkerConfig.getTemplate(templateName);
         String htmlContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, curriculum);
