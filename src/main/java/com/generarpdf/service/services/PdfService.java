@@ -25,7 +25,11 @@ public class PdfService implements IPdfService {
         // If there is an image, convert it to a byte array
         if (image != null && !image.isEmpty()) {
             byte[] imageBytes = image.getBytes();
-            curriculum.setImageData("data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes));;
+            String contentType = image.getContentType();
+            if (contentType == null) {
+                contentType = "image/jpeg"; // Default to JPEG if content type is not available
+            }
+            curriculum.setImageData("data:" + contentType + ";base64," + Base64.getEncoder().encodeToString(imageBytes));
         }
 
         Template template = freemarkerConfig.getTemplate(templateName);
