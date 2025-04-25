@@ -52,6 +52,10 @@ public class PdfService implements IPdfService {
 
     public byte[] generatePDF(CurriculumDto curriculum, MultipartFile image) throws Exception {
         String templateName = "basic.ftl";
+        logger.info("generatePDF method ------------------");
+
+        // Escape HTML entities in text fields to prevent XML parsing errors
+        escapeHtmlEntities(curriculum);
 
         // If there is an image, convert it to a byte array
         if (image != null && !image.isEmpty()) {
@@ -106,5 +110,57 @@ public class PdfService implements IPdfService {
 
             return outputStream.toByteArray();
         }
+    }
+
+    /**
+     * Escapes HTML entities in the curriculum data to prevent XML parsing errors
+     * @param curriculum The curriculum data to escape
+     */
+    private void escapeHtmlEntities(CurriculumDto curriculum) {
+        // Escape summary
+        if (curriculum.getSummary() != null) {
+            curriculum.setSummary(escapeHtml(curriculum.getSummary()));
+        }
+        
+        // Escape experience descriptions
+        if (curriculum.getExperiences() != null) {
+            curriculum.getExperiences().forEach(exp -> {
+                if (exp.getDescription() != null) {
+                    exp.setDescription(escapeHtml(exp.getDescription()));
+                }
+            });
+        }
+        
+        // Escape education details
+        if (curriculum.getEducation() != null) {
+            curriculum.getEducation().forEach(edu -> {
+                if (edu.getDetails() != null) {
+                    edu.setDetails(escapeHtml(edu.getDetails()));
+                }
+            });
+        }
+        
+        // Escape project descriptions
+        if (curriculum.getProjects() != null) {
+            curriculum.getProjects().forEach(project -> {
+                if (project.getDescription() != null) {
+                    project.setDescription(escapeHtml(project.getDescription()));
+                }
+            });
+        }
+    }
+    
+    /**
+     * Escapes HTML special characters in a string
+     * @param input The string to escape
+     * @return The escaped string
+     */
+    private String escapeHtml(String input) {
+        if (input == null) return null;
+        return input.replace("&", "&amp;")
+                   .replace("<", "&lt;")
+                   .replace(">", "&gt;")
+                   .replace("\"", "&quot;")
+                   .replace("'", "&#39;");
     }
 }

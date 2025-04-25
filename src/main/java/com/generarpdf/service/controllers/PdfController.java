@@ -3,6 +3,8 @@ package com.generarpdf.service.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generarpdf.service.dtos.CurriculumDto;
 import com.generarpdf.service.services.IPdfService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api/cv")
 public class PdfController {
+    private static final Logger logger = LoggerFactory.getLogger(PdfController.class);
 
     @Autowired
     private IPdfService pdfService;
@@ -21,6 +24,8 @@ public class PdfController {
     public ResponseEntity<byte[]> generate(@RequestPart String curriculumJson,
                                            @RequestPart(value = "image", required = false) MultipartFile image) {
         try {
+            logger.info("/generate endpoint -------------------------");
+            logger.info("curriculumJson variable value: {}", curriculumJson);
             // Deserialize the curriculum JSON manually
             ObjectMapper objectMapper = new ObjectMapper();
             CurriculumDto curriculum = objectMapper.readValue(curriculumJson, CurriculumDto.class);
