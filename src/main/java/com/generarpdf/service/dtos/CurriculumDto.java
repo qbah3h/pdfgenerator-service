@@ -11,9 +11,11 @@ public class CurriculumDto {
     private String phone;
     private String address;
     private String summary;
-    private List<String> skills;
+    private List<SkillsDto> skills;
     private List<ExperienceDto> experiences;
     private List<EducationDto> education;
+    private List<CertificationsDto> certifications;
+    private List<ReferencesDto> references;
     private List<ProjectDto> projects;
     private String imageData;
 }

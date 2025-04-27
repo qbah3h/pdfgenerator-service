@@ -157,19 +157,22 @@ public class PdfService implements IPdfService {
      */
     private String escapeHtml(String input) {
         if (input == null) return null;
-        // First, escape ampersands to prevent issues with existing entities
-        String result = input.replace("&", "&amp;");
+         // Replace all ampersands with &amp; first
+         String result = input.replace("&", "&amp;");
         
-        // Then escape other special characters
-        result = result.replace("<", "&lt;")
-                      .replace(">", "&gt;")
-                      .replace("\"", "&quot;")
-                      .replace("'", "&#39;");
-        
-        // Additional check for any remaining unescaped ampersands followed by characters
-        // This handles cases where an ampersand might be part of a string like "A&A" or "Q&A"
-        result = result.replaceAll("&(?!(amp;|lt;|gt;|quot;|#39;))", "&amp;");
-        
-        return result;
+         // Then escape other special characters
+         result = result.replace("<", "&lt;")
+                       .replace(">", "&gt;")
+                       .replace("\"", "&quot;")
+                       .replace("'", "&#39;");
+         
+         // Fix double-escaped entities (this handles cases where we might have accidentally converted &amp; to &amp;amp;)
+         result = result.replace("&amp;amp;", "&amp;")
+                       .replace("&amp;lt;", "&lt;")
+                       .replace("&amp;gt;", "&gt;")
+                       .replace("&amp;quot;", "&quot;")
+                       .replace("&amp;#39;", "&#39;");
+         
+         return result;
     }
 }
