@@ -26,6 +26,9 @@ public class PdfController {
         try {
             logger.info("/generate endpoint -------------------------");
             logger.info("curriculumJson variable value: {}", curriculumJson);
+
+            curriculumJson = escapeHtmlInJson(curriculumJson);
+
             // Deserialize the curriculum JSON manually
             ObjectMapper objectMapper = new ObjectMapper();
             CurriculumDto curriculum = objectMapper.readValue(curriculumJson, CurriculumDto.class);
@@ -43,5 +46,50 @@ public class PdfController {
             e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
+    }
+
+    /**
+     * Escapes HTML entities in JSON string values while preserving the JSON structure
+     * 
+     * @param json The JSON string to process
+     * @return The processed JSON string with HTML entities escaped
+     */
+    private String escapeHtmlInJson(String json) {
+        if (json == null || json.isEmpty()) {
+            return json;
+        }
+        
+        // Pattern to find JSON string values (text between quotes not preceded by backslash)
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\"(?:[^\"\\\\]|\\\\.)*\")");
+        java.util.regex.Matcher matcher = pattern.matcher(json);
+        
+        StringBuffer result = new StringBuffer();
+        
+        while (matcher.find()) {
+            String match = matcher.group(1);
+            String value = match.substring(1, match.length() - 1); // Remove surrounding quotes
+            
+            // Apply HTML escaping to the string value
+            value = value.replace("&", "&amp;")
+                         .replace("<", "&lt;")
+                         .replace(">", "&gt;")
+                         .replace("\"", "&quot;")
+                         .replace("'", "&#39;");
+            
+            // Fix double-escaped entities
+            value = value.replace("&amp;amp;", "&amp;")
+                         .replace("&amp;lt;", "&lt;")
+                         .replace("&amp;gt;", "&gt;")
+                         .replace("&amp;quot;", "&quot;")
+                         .replace("&amp;#39;", "&#39;");
+            
+            // Need to escape $ and \ in the replacement string
+            value = java.util.regex.Matcher.quoteReplacement("\"" + value + "\"");
+            
+            matcher.appendReplacement(result, value);
+        }
+        
+        matcher.appendTail(result);
+        return result.toString();
     }
 }
