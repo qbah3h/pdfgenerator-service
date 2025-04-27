@@ -20,6 +20,20 @@
         .header {
             border-bottom: 2px solid #2c3e50;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .header-content {
+            flex: 1;
         }
 
         .contact {
@@ -45,17 +59,27 @@
         ul {
             padding-left: 20px;
         }
+
+        .certification {
+            margin-bottom: 10px;
+        }
+
+        .reference {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
 <body>
-    <#if imageData??>
-        <img src="${imageData}" alt="Profile Image" />
-    </#if>
     <div class="header">
-        <h1>${fullName}</h1>
-        <div class="contact">
-            ${email} | ${phone} | ${address}
+        <#if imageData??>
+            <img class="profile-image" src="${imageData}" alt="Profile Image" />
+        </#if>
+        <div class="header-content">
+            <h1>${fullName}</h1>
+            <div class="contact">
+                ${email} | ${phone} | ${address}
+            </div>
         </div>
     </div>
 
@@ -103,6 +127,21 @@
         </div>
     </#if>
 
+    <#if certifications?has_content>
+        <div class="section">
+            <h2>Certifications</h2>
+            <#list certifications as cert>
+                <div class="certification">
+                    <div class="date-range">${cert.date}</div>
+                    <div class="job-title">${cert.name}</div>
+                    <#if cert.link?? && cert.link != "">
+                        <a href="${cert.link}" target="_blank">View Certificate</a>
+                    </#if>
+                </div>
+            </#list>
+        </div>
+    </#if>
+
     <#if projects?has_content>
         <div class="section">
             <h2>Projects</h2>
@@ -110,6 +149,20 @@
                 <div>
                     <div class="job-title">${project.title}</div>
                     <p>${project.description}</p>
+                </div>
+            </#list>
+        </div>
+    </#if>
+
+    <#if references?has_content>
+        <div class="section">
+            <h2>References</h2>
+            <#list references as ref>
+                <div class="reference">
+                    <div class="job-title">${ref.name}</div>
+                    <div class="contact">
+                        ${ref.email} | ${ref.phone}
+                    </div>
                 </div>
             </#list>
         </div>
