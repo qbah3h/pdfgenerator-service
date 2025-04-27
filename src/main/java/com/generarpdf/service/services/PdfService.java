@@ -26,9 +26,9 @@ public class PdfService implements IPdfService {
     private int findImageStart(byte[] data) {
         // Common image format signatures
         byte[][] signatures = {
-            {(byte) 0xFF, (byte) 0xD8}, // JPEG
-            {(byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47}, // PNG
-            {(byte) 0x47, (byte) 0x49, (byte) 0x46, (byte) 0x38}, // GIF
+                { (byte) 0xFF, (byte) 0xD8 }, // JPEG
+                { (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47 }, // PNG
+                { (byte) 0x47, (byte) 0x49, (byte) 0x46, (byte) 0x38 }, // GIF
         };
 
         // Search for known image format signatures
@@ -59,15 +59,15 @@ public class PdfService implements IPdfService {
 
         // If there is an image, convert it to a byte array
         if (image != null && !image.isEmpty()) {
-            logger.info("Processing image: name={}, originalFilename={}, contentType={}, size={}", 
-                image.getName(), image.getOriginalFilename(), image.getContentType(), image.getSize());
-            
+            logger.info("Processing image: name={}, originalFilename={}, contentType={}, size={}",
+                    image.getName(), image.getOriginalFilename(), image.getContentType(), image.getSize());
+
             try {
                 // Get the input stream directly from the multipart file
                 try (java.io.InputStream inputStream = image.getInputStream()) {
                     // Read the actual image bytes, skipping any headers
                     byte[] imageBytes = inputStream.readAllBytes();
-                    
+
                     String contentType = image.getContentType();
                     if (contentType == null) {
                         contentType = "image/jpeg"; // Default to JPEG if content type is not available
@@ -82,10 +82,10 @@ public class PdfService implements IPdfService {
                         imageBytes = java.util.Arrays.copyOfRange(imageBytes, startIdx, imageBytes.length);
                         logger.info("Cleaned image data, new size: {} bytes", imageBytes.length);
                     }
-                    
+
                     String base64Image = Base64.getEncoder().encodeToString(imageBytes);
                     logger.debug("Base64 image length: {}", base64Image.length());
-                    
+
                     String dataUrl = "data:" + contentType + ";base64," + base64Image;
                     curriculum.setImageData(dataUrl);
                     logger.info("Successfully processed image and set data URL");
@@ -114,65 +114,144 @@ public class PdfService implements IPdfService {
 
     /**
      * Escapes HTML entities in the curriculum data to prevent XML parsing errors
+     * 
      * @param curriculum The curriculum data to escape
      */
     private void escapeHtmlEntities(CurriculumDto curriculum) {
-        // Escape summary
+        // Escape personal information
+        if (curriculum.getFullName() != null) {
+            curriculum.setFullName(escapeHtml(curriculum.getFullName()));
+        }
+        if (curriculum.getEmail() != null) {
+            curriculum.setEmail(escapeHtml(curriculum.getEmail()));
+        }
+        if (curriculum.getPhone() != null) {
+            curriculum.setPhone(escapeHtml(curriculum.getPhone()));
+        }
+        if (curriculum.getAddress() != null) {
+            curriculum.setAddress(escapeHtml(curriculum.getAddress()));
+        }
         if (curriculum.getSummary() != null) {
             curriculum.setSummary(escapeHtml(curriculum.getSummary()));
         }
-        
+
         // Escape experience descriptions
         if (curriculum.getExperiences() != null) {
             curriculum.getExperiences().forEach(exp -> {
                 if (exp.getDescription() != null) {
                     exp.setDescription(escapeHtml(exp.getDescription()));
                 }
+                // Also escape company, position and other fields if they exist
+                if (exp.getCompany() != null) {
+                    exp.setCompany(escapeHtml(exp.getCompany()));
+                }
+                if (exp.getPosition() != null) {
+                    exp.setPosition(escapeHtml(exp.getPosition()));
+                }
             });
         }
-        
+
         // Escape education details
         if (curriculum.getEducation() != null) {
             curriculum.getEducation().forEach(edu -> {
                 if (edu.getDetails() != null) {
                     edu.setDetails(escapeHtml(edu.getDetails()));
                 }
+                // Also escape institution, degree and other fields if they exist
+                if (edu.getInstitution() != null) {
+                    edu.setInstitution(escapeHtml(edu.getInstitution()));
+                }
+                if (edu.getDegree() != null) {
+                    edu.setDegree(escapeHtml(edu.getDegree()));
+                }
             });
         }
-        
+
         // Escape project descriptions
         if (curriculum.getProjects() != null) {
             curriculum.getProjects().forEach(project -> {
                 if (project.getDescription() != null) {
                     project.setDescription(escapeHtml(project.getDescription()));
                 }
+                // Also escape project name and other fields if they exist
+                if (project.getName() != null) {
+                    project.setName(escapeHtml(project.getName()));
+                }
+            });
+        }
+
+        // Escape certifications
+        if (curriculum.getCertifications() != null) {
+            curriculum.getCertifications().forEach(cert -> {
+                if (cert.getName() != null) {
+                    cert.setName(escapeHtml(cert.getName()));
+                }
+                if (cert.getIssuer() != null) {
+                    cert.setIssuer(escapeHtml(cert.getIssuer()));
+                }
+                if (cert.getDescription() != null) {
+                    cert.setDescription(escapeHtml(cert.getDescription()));
+                }
+            });
+        }
+
+        // Escape references
+        if (curriculum.getReferences() != null) {
+            curriculum.getReferences().forEach(ref -> {
+                if (ref.getName() != null) {
+                    ref.setName(escapeHtml(ref.getName()));
+                }
+                if (ref.getPosition() != null) {
+                    ref.setPosition(escapeHtml(ref.getPosition()));
+                }
+                if (ref.getCompany() != null) {
+                    ref.setCompany(escapeHtml(ref.getCompany()));
+                }
+                if (ref.getContact() != null) {
+                    ref.setContact(escapeHtml(ref.getContact()));
+                }
+            });
+        }
+
+        // Escape skills
+        if (curriculum.getSkills() != null) {
+            curriculum.getSkills().forEach(skill -> {
+                if (skill.getName() != null) {
+                    skill.setName(escapeHtml(skill.getName()));
+                }
+                if (skill.getLevel() != null) {
+                    skill.setLevel(escapeHtml(skill.getLevel()));
+                }
             });
         }
     }
-    
+
     /**
      * Escapes HTML special characters in a string
+     * 
      * @param input The string to escape
      * @return The escaped string
      */
     private String escapeHtml(String input) {
-        if (input == null) return null;
-         // Replace all ampersands with &amp; first
-         String result = input.replace("&", "&amp;");
-        
-         // Then escape other special characters
-         result = result.replace("<", "&lt;")
-                       .replace(">", "&gt;")
-                       .replace("\"", "&quot;")
-                       .replace("'", "&#39;");
-         
-         // Fix double-escaped entities (this handles cases where we might have accidentally converted &amp; to &amp;amp;)
-         result = result.replace("&amp;amp;", "&amp;")
-                       .replace("&amp;lt;", "&lt;")
-                       .replace("&amp;gt;", "&gt;")
-                       .replace("&amp;quot;", "&quot;")
-                       .replace("&amp;#39;", "&#39;");
-         
-         return result;
+        if (input == null)
+            return null;
+        // Replace all ampersands with &amp; first
+        String result = input.replace("&", "&amp;");
+
+        // Then escape other special characters
+        result = result.replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;");
+
+        // Fix double-escaped entities (this handles cases where we might have
+        // accidentally converted &amp; to &amp;amp;)
+        result = result.replace("&amp;amp;", "&amp;")
+                .replace("&amp;lt;", "&lt;")
+                .replace("&amp;gt;", "&gt;")
+                .replace("&amp;quot;", "&quot;")
+                .replace("&amp;#39;", "&#39;");
+
+        return result;
     }
 }
