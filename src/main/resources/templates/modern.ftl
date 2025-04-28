@@ -13,7 +13,9 @@
 
         .resume-container {
             display: flex;
+            flex-direction: row;
             min-height: 100vh;
+            width: 100%;
         }
 
         .sidebar {
@@ -22,12 +24,16 @@
             color: #fff;
             padding: 30px;
             box-sizing: border-box;
+            display: block;
+            float: left;
         }
 
         .main-content {
             width: 70%;
             padding: 30px;
             box-sizing: border-box;
+            display: block;
+            float: left;
         }
 
         .profile-section {
@@ -190,8 +196,8 @@
 </head>
 
 <body>
-    <div class="resume-container">
-        <div class="sidebar">
+    <div class="resume-container" style="display: flex; flex-direction: row; width: 100%;">
+        <div class="sidebar" style="width: 30%; float: left;">
             <div class="profile-section">
                 <#if imageData??>
                     <img class="profile-image" src="${imageData}" alt="Profile Image" />
@@ -242,7 +248,7 @@
             </#if>
         </div>
 
-        <div class="main-content">
+        <div class="main-content" style="width: 70%; float: left;">
             <div class="section">
                 <div class="personal-description">
                     <h3 class="section-title">Descripción personal</h3>
