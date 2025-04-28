@@ -36,7 +36,7 @@
 
         .main-content {
             width: 70%;
-            padding: 30px;
+            padding: 10px;
             box-sizing: border-box;
         }
 
@@ -54,7 +54,7 @@
             overflow: hidden;
             position: relative;
         }
-        
+
         .profile-image {
             width: 100%;
             height: 100%;
@@ -125,7 +125,8 @@
             break-inside: avoid;
         }
 
-        .experience-item, .education-item {
+        .experience-item,
+        .education-item {
             margin-bottom: 20px;
             position: relative;
             page-break-inside: avoid;
@@ -141,13 +142,15 @@
             margin-right: 10px;
         }
 
-        .job-title, .degree {
+        .job-title,
+        .degree {
             font-weight: bold;
             font-size: 16px;
             margin-bottom: 5px;
         }
 
-        .company, .institution {
+        .company,
+        .institution {
             font-style: italic;
             margin-bottom: 5px;
         }
@@ -219,158 +222,162 @@
 <body>
     <table class="resume-container" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td class="sidebar" width="30%" style="background-color: #3c3c3c; color: #fff; padding: 30px;">
-            <div class="profile-section">
-                <#if imageData??>
-                    <div class="profile-image-container">
-                        <img class="profile-image" src="${imageData}" alt="Profile Image" />
+            <td class="sidebar" width="30%">
+                <div class="profile-section">
+                    <#if imageData??>
+                        <div class="profile-image-container">
+                            <img class="profile-image" src="${imageData}" alt="Profile Image" />
+                        </div>
+                    </#if>
+                    <div class="full-name">${fullName}</div>
+                </div>
+
+                <div class="contact-info">
+                    <h3 class="section-title">CONTACTO</h3>
+                    <div class="contact-item">
+                        <div class="contact-label">Teléfono:</div>
+                        <div>${phone}</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Email:</div>
+                        <div>${email}</div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">Domicilio:</div>
+                        <div>${address}</div>
+                    </div>
+                </div>
+
+                <#if skills?has_content>
+                    <div class="skills-section">
+                        <h3 class="section-title">HABILIDADES</h3>
+                        <#list skills as skill>
+                            <table class="skill-item" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <div class="skill-title">${skill.title}</div>
+                                        <div>${skill.description}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </#list>
                     </div>
                 </#if>
-                <div class="full-name">${fullName}</div>
-            </div>
 
-            <div class="contact-info">
-                <h3 class="section-title">CONTACTO</h3>
-                <div class="contact-item">
-                    <div class="contact-label">Teléfono:</div>
-                    <div>${phone}</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-label">Email:</div>
-                    <div>${email}</div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-label">Domicilio:</div>
-                    <div>${address}</div>
-                </div>
-            </div>
-
-            <#if skills?has_content>
-                <div class="skills-section">
-                    <h3 class="section-title">HABILIDADES</h3>
-                    <#list skills as skill>
-                        <table class="skill-item" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td>
-                                    <div class="skill-title">${skill.title}</div>
-                                    <div>${skill.description}</div>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
-
-            <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
-                <div class="references-section">
-                    <h3 class="section-title">REFERENCIAS</h3>
-                    <#list references?filter(r -> r.name?has_content) as ref>
-                        <table class="reference" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td>
-                                    <div class="reference-name">${ref.name}</div>
-                                    <div class="reference-contact">
-                                        ${ref.email}  ${ref.phone}
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
+                <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
+                    <div class="references-section">
+                        <h3 class="section-title">REFERENCIAS</h3>
+                        <#list references?filter(r -> r.name?has_content) as ref>
+                            <table class="reference" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <div class="reference-name">${ref.name}</div>
+                                        <div class="reference-contact">
+                                            ${ref.email} ${ref.phone}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </#list>
+                    </div>
+                </#if>
 
             </td>
 
-            <td class="main-content" width="70%" style="padding: 30px;">
-            <div class="section">
-                <div class="personal-description">
-                    <h3 class="section-title">Descripción personal</h3>
-                    <p>${summary}</p>
-                </div>
-            </div>
-
-            <#if experiences?has_content>
+            <td class="main-content" width="70%">
                 <div class="section">
-                    <h3 class="section-title">EXPERIENCIA</h3>
-                    <#list experiences as exp>
-                        <table class="experience-item" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td style="width: 12px; vertical-align: top; padding-right: 10px;">
-                                    <span class="timeline-dot" style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
-                                </td>
-                                <td>
-                                    <div class="job-title">${exp.jobTitle}</div>
-                                    <div class="company">${exp.company}</div>
-                                    <div class="date-range">${exp.startDate} - ${exp.endDate}</div>
-                                    <p>${exp.description}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
+                    <div class="personal-description">
+                        <h3 class="section-title">Descripción personal</h3>
+                        <p>${summary}</p>
+                    </div>
                 </div>
-            </#if>
 
-            <#if education?has_content>
-                <div class="section">
-                    <h3 class="section-title">EDUCACIÓN</h3>
-                    <#list education as edu>
-                        <table class="education-item" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td style="width: 12px; vertical-align: top; padding-right: 10px;">
-                                    <span class="timeline-dot" style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
-                                </td>
-                                <td>
-                                    <div class="degree">${edu.degree}</div>
-                                    <div class="institution">${edu.institution}</div>
-                                    <div class="date-range">${edu.startDate} - ${edu.endDate}</div>
-                                    <p>${edu.details}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
+                <#if experiences?has_content>
+                    <div class="section">
+                        <h3 class="section-title">EXPERIENCIA</h3>
+                        <#list experiences as exp>
+                            <table class="experience-item" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="width: 12px; vertical-align: top; padding-right: 10px;">
+                                        <span class="timeline-dot"
+                                            style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
+                                    </td>
+                                    <td>
+                                        <div class="job-title">${exp.jobTitle}</div>
+                                        <div class="company">${exp.company}</div>
+                                        <div class="date-range">${exp.startDate} - ${exp.endDate}</div>
+                                        <p>${exp.description}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </#list>
+                    </div>
+                </#if>
 
-            <#if certifications?has_content>
-                <div class="section">
-                    <h3 class="section-title">CERTIFICACIONES</h3>
-                    <#list certifications as cert>
-                        <table class="certification" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td>
-                                    <div class="certification-name">
-                                        <#if cert.link?? && cert.link !="">
-                                            <a href="${cert.link}" target="_blank">${cert.name}</a>
-                                        <#else>
-                                            ${cert.name}
-                                        </#if>
-                                    </div>
-                                    <div class="certification-date">${cert.date}</div>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
+                <#if education?has_content>
+                    <div class="section">
+                        <h3 class="section-title">EDUCACIÓN</h3>
+                        <#list education as edu>
+                            <table class="education-item" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="width: 12px; vertical-align: top; padding-right: 10px;">
+                                        <span class="timeline-dot"
+                                            style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
+                                    </td>
+                                    <td>
+                                        <div class="degree">${edu.degree}</div>
+                                        <div class="institution">${edu.institution}</div>
+                                        <div class="date-range">${edu.startDate} - ${edu.endDate}</div>
+                                        <p>${edu.details}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </#list>
+                    </div>
+                </#if>
 
-            <#if projects?has_content && projects?filter(p -> p.title?has_content || p.description?has_content)?size gt 0>
-                <div class="section">
-                    <h3 class="section-title">PROYECTOS</h3>
-                    <#list projects?filter(p -> p.title?has_content || p.description?has_content) as project>
-                        <table class="experience-item" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td style="width: 12px; vertical-align: top; padding-right: 10px;">
-                                    <span class="timeline-dot" style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
-                                </td>
-                                <td>
-                                    <div class="job-title">${project.title}</div>
-                                    <p>${project.description}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
+                <#if certifications?has_content>
+                    <div class="section">
+                        <h3 class="section-title">CERTIFICACIONES</h3>
+                        <#list certifications as cert>
+                            <table class="certification" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <div class="certification-name">
+                                            <#if cert.link?? && cert.link !="">
+                                                <a href="${cert.link}" target="_blank">${cert.name}</a>
+                                                <#else>
+                                                    ${cert.name}
+                                            </#if>
+                                        </div>
+                                        <div class="certification-date">${cert.date}</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </#list>
+                    </div>
+                </#if>
+
+                <#if projects?has_content && projects?filter(p -> p.title?has_content || p.description?has_content)?size
+                    gt 0>
+                    <div class="section">
+                        <h3 class="section-title">PROYECTOS</h3>
+                        <#list projects?filter(p -> p.title?has_content || p.description?has_content) as project>
+                            <table class="experience-item" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td style="width: 12px; vertical-align: top; padding-right: 10px;">
+                                        <span class="timeline-dot"
+                                            style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
+                                    </td>
+                                    <td>
+                                        <div class="job-title">${project.title}</div>
+                                        <p>${project.description}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </#list>
+                    </div>
+                </#if>
             </td>
         </tr>
     </table>
