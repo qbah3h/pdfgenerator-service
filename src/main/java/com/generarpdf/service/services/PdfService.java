@@ -51,7 +51,7 @@ public class PdfService implements IPdfService {
     }
 
     public byte[] generatePDF(CurriculumDto curriculum, MultipartFile image) throws Exception {
-        String templateName = "basic.ftl";
+        String templateName = curriculum.getStyle() + ".ftl";
         logger.info("generatePDF method ------------------");
 
         // If there is an image, convert it to a byte array

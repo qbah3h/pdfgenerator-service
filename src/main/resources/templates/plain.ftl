@@ -15,6 +15,10 @@
 
         .section {
             margin-bottom: 25px;
+            page-break-inside: avoid;
+            /* Prevents section from being split across pages */
+            break-inside: avoid;
+            /* Modern browsers */
         }
 
         .header {
@@ -72,9 +76,9 @@
 
 <body>
     <div class="header">
-        <#if imageData??>
+        <!--<#if imageData??>
             <img class="profile-image" src="${imageData}" alt="Profile Image" />
-        </#if>
+        </#if>-->
         <div class="header-content">
             <h1>${fullName}</h1>
             <div class="contact">
@@ -87,17 +91,6 @@
         <h2>Professional Summary</h2>
         <p>${summary}</p>
     </div>
-
-    <#if skills?has_content>
-        <div class="section">
-            <h2>Skills</h2>
-            <ul>
-                <#list skills as skill>
-                    <li>${skill}</li>
-                </#list>
-            </ul>
-        </div>
-    </#if>
 
     <#if experiences?has_content>
         <div class="section">
@@ -133,19 +126,22 @@
             <#list certifications as cert>
                 <div class="certification">
                     <div class="date-range">${cert.date}</div>
-                    <div class="job-title">${cert.name}</div>
-                    <#if cert.link?? && cert.link != "">
-                        <a href="${cert.link}" target="_blank">View Certificate</a>
-                    </#if>
+                    <div class="job-title">
+                        <#if cert.link?? && cert.link !="">
+                            <a href="${cert.link}" target="_blank">${cert.name}</a>
+                            <#else>
+                                ${cert.name}
+                        </#if>
+                    </div>
                 </div>
             </#list>
         </div>
     </#if>
 
-    <#if projects?has_content>
+    <#if projects?has_content && projects?filter(p -> p.title?has_content || p.description?has_content)?size gt 0>
         <div class="section">
             <h2>Projects</h2>
-            <#list projects as project>
+            <#list projects?filter(p -> p.title?has_content || p.description?has_content) as project>
                 <div>
                     <div class="job-title">${project.title}</div>
                     <p>${project.description}</p>
@@ -154,10 +150,21 @@
         </div>
     </#if>
 
-    <#if references?has_content>
+    <#if skills?has_content>
+        <div class="section">
+            <h2>Skills</h2>
+            <ul>
+                <#list skills as skill>
+                    <li>${skill.title}: ${skill.description}</li>
+                </#list>
+            </ul>
+        </div>
+    </#if>
+
+    <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
         <div class="section">
             <h2>References</h2>
-            <#list references as ref>
+            <#list references?filter(r -> r.name?has_content) as ref>
                 <div class="reference">
                     <div class="job-title">${ref.name}</div>
                     <div class="contact">
