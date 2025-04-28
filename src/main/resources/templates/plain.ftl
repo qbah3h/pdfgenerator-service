@@ -94,13 +94,13 @@
     </table>
 
     <div class="section">
-        <h2>Professional Summary</h2>
+        <h2><#if language == 'en'>Professional Summary<#else>Resumen Profesional</#if></h2>
         <p>${summary}</p>
     </div>
 
     <#if experiences?has_content>
         <div class="section">
-            <h2>Work Experience</h2>
+            <h2><#if language == 'en'>Work Experience<#else>Experiencia Laboral</#if></h2>
             <#list experiences as exp>
                 <div>
                     <div class="date-range">${exp.startDate} - ${exp.endDate}</div>
@@ -114,7 +114,7 @@
 
     <#if education?has_content>
         <div class="section">
-            <h2>Education</h2>
+            <h2><#if language == 'en'>Education<#else>Educación</#if></h2>
             <#list education as edu>
                 <div>
                     <div class="date-range">${edu.startDate} - ${edu.endDate}</div>
@@ -128,7 +128,7 @@
 
     <#if certifications?has_content>
         <div class="section">
-            <h2>Certifications</h2>
+            <h2><#if language == 'en'>Certifications<#else>Certificaciones</#if></h2>
             <#list certifications as cert>
                 <div class="certification">
                     <div class="date-range">${cert.date}</div>
@@ -146,7 +146,7 @@
 
     <#if projects?has_content && projects?filter(p -> p.title?has_content || p.description?has_content)?size gt 0>
         <div class="section">
-            <h2>Projects</h2>
+            <h2><#if language == 'en'>Projects<#else>Proyectos</#if></h2>
             <#list projects?filter(p -> p.title?has_content || p.description?has_content) as project>
                 <div>
                     <div class="job-title">${project.title}</div>
@@ -158,7 +158,7 @@
 
     <#if skills?has_content>
         <div class="section">
-            <h2>Skills</h2>
+            <h2><#if language == 'en'>Skills<#else>Habilidades</#if></h2>
             <ul>
                 <#list skills as skill>
                     <li>${skill.title}: ${skill.description}</li>
@@ -169,7 +169,7 @@
 
     <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
         <div class="section">
-            <h2>References</h2>
+            <h2><#if language == 'en'>References<#else>Referencias</#if></h2>
             <#list references?filter(r -> r.name?has_content) as ref>
                 <div class="reference">
                     <div class="job-title">${ref.name}</div>

@@ -233,9 +233,9 @@
                 </div>
 
                 <div class="contact-info">
-                    <h3 class="section-title">CONTACTO</h3>
+                    <h3 class="section-title"><#if language == 'en'>CONTACT<#else>CONTACTO</#if></h3>
                     <div class="contact-item">
-                        <div class="contact-label">Teléfono:</div>
+                        <div class="contact-label"><#if language == 'en'>Phone:<#else>Teléfono:</#if></div>
                         <div>${phone}</div>
                     </div>
                     <div class="contact-item">
@@ -243,14 +243,14 @@
                         <div>${email}</div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-label">Domicilio:</div>
+                        <div class="contact-label"><#if language == 'en'>Address:<#else>Domicilio:</#if></div>
                         <div>${address}</div>
                     </div>
                 </div>
 
                 <#if skills?has_content>
                     <div class="skills-section">
-                        <h3 class="section-title">HABILIDADES</h3>
+                        <h3 class="section-title"><#if language == 'en'>SKILLS<#else>HABILIDADES</#if></h3>
                         <#list skills as skill>
                             <table class="skill-item" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
@@ -266,7 +266,7 @@
 
                 <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
                     <div class="references-section">
-                        <h3 class="section-title">REFERENCIAS</h3>
+                        <h3 class="section-title"><#if language == 'en'>REFERENCES<#else>REFERENCIAS</#if></h3>
                         <#list references?filter(r -> r.name?has_content) as ref>
                             <table class="reference" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
@@ -287,14 +287,14 @@
             <td class="main-content" width="70%">
                 <div class="section">
                     <div class="personal-description">
-                        <h3 class="section-title">Descripción personal</h3>
+                        <h3 class="section-title"><#if language == 'en'>Personal Description<#else>Descripción personal</#if></h3>
                         <p>${summary}</p>
                     </div>
                 </div>
 
                 <#if experiences?has_content>
                     <div class="section">
-                        <h3 class="section-title">EXPERIENCIA</h3>
+                        <h3 class="section-title"><#if language == 'en'>EXPERIENCE<#else>EXPERIENCIA</#if></h3>
                         <#list experiences as exp>
                             <table class="experience-item" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
@@ -316,7 +316,7 @@
 
                 <#if education?has_content>
                     <div class="section">
-                        <h3 class="section-title">EDUCACIÓN</h3>
+                        <h3 class="section-title"><#if language == 'en'>EDUCATION<#else>EDUCACIÓN</#if></h3>
                         <#list education as edu>
                             <table class="education-item" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
@@ -338,7 +338,7 @@
 
                 <#if certifications?has_content>
                     <div class="section">
-                        <h3 class="section-title">CERTIFICACIONES</h3>
+                        <h3 class="section-title"><#if language == 'en'>CERTIFICATIONS<#else>CERTIFICACIONES</#if></h3>
                         <#list certifications as cert>
                             <table class="certification" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
@@ -361,7 +361,7 @@
                 <#if projects?has_content && projects?filter(p -> p.title?has_content || p.description?has_content)?size
                     gt 0>
                     <div class="section">
-                        <h3 class="section-title">PROYECTOS</h3>
+                        <h3 class="section-title"><#if language == 'en'>PROJECTS<#else>PROYECTOS</#if></h3>
                         <#list projects?filter(p -> p.title?has_content || p.description?has_content) as project>
                             <table class="experience-item" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
