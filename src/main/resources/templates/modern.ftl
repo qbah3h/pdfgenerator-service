@@ -30,7 +30,7 @@
             width: 30%;
             background-color: #3c3c3c;
             color: #fff;
-            padding: 30px;
+            padding: 10px;
             box-sizing: border-box;
         }
 
@@ -45,13 +45,22 @@
             margin-bottom: 30px;
         }
 
-        .profile-image {
+        .profile-image-container {
             width: 120px;
             height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
             margin: 0 auto 15px;
-            border: 3px solid #fff;
+            border: 1px solid #fff;
+            background-color: #3c3c3c;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
         }
 
         .full-name {
@@ -213,7 +222,9 @@
             <td class="sidebar" width="30%" style="background-color: #3c3c3c; color: #fff; padding: 30px;">
             <div class="profile-section">
                 <#if imageData??>
-                    <img class="profile-image" src="${imageData}" alt="Profile Image" />
+                    <div class="profile-image-container">
+                        <img class="profile-image" src="${imageData}" alt="Profile Image" />
+                    </div>
                 </#if>
                 <div class="full-name">${fullName}</div>
             </div>
