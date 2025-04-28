@@ -234,24 +234,6 @@
                 </div>
             </div>
 
-            <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
-                <div class="references-section">
-                    <h3 class="section-title">REFERENCIAS</h3>
-                    <#list references?filter(r -> r.name?has_content) as ref>
-                        <table class="reference" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td>
-                                    <div class="reference-name">${ref.name}</div>
-                                    <div class="reference-contact">
-                                        ${ref.email} | ${ref.phone}
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
-
             <#if skills?has_content>
                 <div class="skills-section">
                     <h3 class="section-title">HABILIDADES</h3>
@@ -267,7 +249,27 @@
                     </#list>
                 </div>
             </#if>
+
+            <#if references?has_content && references?filter(r -> r.name?has_content)?size gt 0>
+                <div class="references-section">
+                    <h3 class="section-title">REFERENCIAS</h3>
+                    <#list references?filter(r -> r.name?has_content) as ref>
+                        <table class="reference" width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td>
+                                    <div class="reference-name">${ref.name}</div>
+                                    <div class="reference-contact">
+                                        ${ref.email}  ${ref.phone}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </#list>
+                </div>
+            </#if>
+
             </td>
+
             <td class="main-content" width="70%" style="padding: 30px;">
             <div class="section">
                 <div class="personal-description">
@@ -275,27 +277,6 @@
                     <p>${summary}</p>
                 </div>
             </div>
-
-            <#if education?has_content>
-                <div class="section">
-                    <h3 class="section-title">EDUCACIÓN</h3>
-                    <#list education as edu>
-                        <table class="education-item" width="100%" cellpadding="0" cellspacing="0" border="0">
-                            <tr>
-                                <td style="width: 12px; vertical-align: top; padding-right: 10px;">
-                                    <span class="timeline-dot" style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
-                                </td>
-                                <td>
-                                    <div class="degree">${edu.degree}</div>
-                                    <div class="institution">${edu.institution}</div>
-                                    <div class="date-range">${edu.startDate} - ${edu.endDate}</div>
-                                    <p>${edu.details}</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </#list>
-                </div>
-            </#if>
 
             <#if experiences?has_content>
                 <div class="section">
@@ -311,6 +292,27 @@
                                     <div class="company">${exp.company}</div>
                                     <div class="date-range">${exp.startDate} - ${exp.endDate}</div>
                                     <p>${exp.description}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </#list>
+                </div>
+            </#if>
+
+            <#if education?has_content>
+                <div class="section">
+                    <h3 class="section-title">EDUCACIÓN</h3>
+                    <#list education as edu>
+                        <table class="education-item" width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td style="width: 12px; vertical-align: top; padding-right: 10px;">
+                                    <span class="timeline-dot" style="display: inline-block; width: 12px; height: 12px; background-color: #3c3c3c; border-radius: 50%;"></span>
+                                </td>
+                                <td>
+                                    <div class="degree">${edu.degree}</div>
+                                    <div class="institution">${edu.institution}</div>
+                                    <div class="date-range">${edu.startDate} - ${edu.endDate}</div>
+                                    <p>${edu.details}</p>
                                 </td>
                             </tr>
                         </table>
