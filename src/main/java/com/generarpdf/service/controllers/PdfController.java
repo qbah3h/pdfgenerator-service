@@ -35,7 +35,7 @@ public class PdfController {
 
             byte[] pdfBytes = pdfService.generatePDF(curriculum, image);
 
-            String filename = "CV - Nombre - Tema.pdf";
+            String filename = curriculum.getFullName() + ".pdf";
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
