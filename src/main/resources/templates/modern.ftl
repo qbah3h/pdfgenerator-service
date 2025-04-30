@@ -46,8 +46,7 @@
         }
 
         .profile-image-container {
-            width: 120px;
-            height: 120px;
+            width: 160px;
             margin: 0 auto 15px;
             border: 1px solid #fff;
             background-color: #3c3c3c;

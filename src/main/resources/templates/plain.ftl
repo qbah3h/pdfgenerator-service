@@ -30,14 +30,6 @@
             flex-wrap: nowrap;
         }
 
-        .profile-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 20px;
-        }
-
         .header-content {
             flex: 1;
         }
@@ -79,11 +71,6 @@
 <body>
     <table class="header" style="width: 100%; border-bottom: 2px solid #2c3e50; margin-bottom: 20px;">
         <tr>
-            <#if imageData??>
-            <td style="width: 120px; vertical-align: middle;">
-                <img class="profile-image" src="${imageData}" alt="Profile Image" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-right: 20px;" />
-            </td>
-            </#if>
             <td style="vertical-align: middle;">
                 <h1 style="margin-top: 0; margin-bottom: 10px;">${fullName}</h1>
                 <div class="contact">
