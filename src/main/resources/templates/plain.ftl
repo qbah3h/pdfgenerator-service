@@ -126,10 +126,10 @@
         </div>
     </#if>
 
-    <#if certifications?has_content>
+    <#if certifications?has_content && certifications?filter(c -> c.name?has_content)?size gt 0>
         <div class="section">
             <h2><#if language == 'en'>Certifications<#else>Certificaciones</#if></h2>
-            <#list certifications as cert>
+            <#list certifications?filter(c -> c.name?has_content) as cert>
                 <div class="certification">
                     <div class="date-range">${cert.date}</div>
                     <div class="job-title">
@@ -156,11 +156,11 @@
         </div>
     </#if>
 
-    <#if skills?has_content>
+    <#if skills?has_content && skills?filter(s -> s.title?has_content || s.description?has_content)?size gt 0>
         <div class="section">
             <h2><#if language == 'en'>Skills<#else>Habilidades</#if></h2>
             <ul>
-                <#list skills as skill>
+                <#list skills?filter(s -> s.title?has_content || s.description?has_content) as skill>
                     <li>${skill.title}: ${skill.description}</li>
                 </#list>
             </ul>

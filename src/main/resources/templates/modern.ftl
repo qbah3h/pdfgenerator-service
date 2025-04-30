@@ -229,7 +229,6 @@
                             <img class="profile-image" src="${imageData}" alt="Profile Image" />
                         </div>
                     </#if>
-                    <div class="full-name">${fullName}</div>
                 </div>
 
                 <div class="contact-info">
@@ -248,10 +247,10 @@
                     </div>
                 </div>
 
-                <#if skills?has_content>
+                <#if skills?has_content && skills?filter(s -> s.title?has_content || s.description?has_content)?size gt 0>
                     <div class="skills-section">
                         <h3 class="section-title"><#if language == 'en'>SKILLS<#else>HABILIDADES</#if></h3>
-                        <#list skills as skill>
+                        <#list skills?filter(s -> s.title?has_content || s.description?has_content) as skill>
                             <table class="skill-item" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td>
@@ -285,6 +284,7 @@
             </td>
 
             <td class="main-content" width="70%">
+                <div class="full-name">${fullName}</div>
                 <div class="section">
                     <div class="personal-description">
                         <h3 class="section-title"><#if language == 'en'>Personal Description<#else>Descripción personal</#if></h3>
@@ -336,10 +336,10 @@
                     </div>
                 </#if>
 
-                <#if certifications?has_content>
+                <#if certifications?has_content && certifications?filter(c -> c.name?has_content)?size gt 0>
                     <div class="section">
                         <h3 class="section-title"><#if language == 'en'>CERTIFICATIONS<#else>CERTIFICACIONES</#if></h3>
-                        <#list certifications as cert>
+                        <#list certifications?filter(c -> c.name?has_content) as cert>
                             <table class="certification" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
                                     <td>
